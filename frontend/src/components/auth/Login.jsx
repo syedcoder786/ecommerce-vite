@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Checkbox, Label, TextInput, Toast } from "flowbite-react";
+import {
+  Button,
+  Checkbox,
+  Label,
+  Spinner,
+  TextInput,
+  Toast,
+} from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
 import { login, reset } from "../../store/auth/authSlice";
 
@@ -117,7 +124,16 @@ const Login = ({ openModal, setOpenModal }) => {
           </a>
         </div>
         <div className="w-full">
-          <Button onClick={onLoginSubmit}>Log in to your account</Button>
+          <Button onClick={onLoginSubmit}>
+            {isLoading && (
+              <Spinner
+                aria-label="Spinner button example"
+                size="md"
+                className="mr-2"
+              />
+            )}
+            Log In
+          </Button>
         </div>
         {/* <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300">
       Not registered?&nbsp;

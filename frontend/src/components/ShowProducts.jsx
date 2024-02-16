@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import { fetchProducts, reset } from "../store/product/productSlice";
+import { Spinner } from "flowbite-react";
 
 const ShowProducts = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const ShowProducts = () => {
     dispatch(reset());
   }, [products, isError, isSuccess, message, dispatch]);
 
-  const productItems = products.map((product, index) => (
+  const productItems = products?.map((product, index) => (
     <Card {...product} key={index} />
   ));
 
@@ -44,6 +45,15 @@ const ShowProducts = () => {
           Category Select
         </button>
       </div>
+      {/* {isLoading && (
+        <div className="text-center text-2xl">
+          <Spinner
+            aria-label="Spinner button example"
+            size="xl"
+            className="m-2"
+          />
+        </div>
+      )} */}
       <div className="grid md:grid-cols-5 gap-2">{productItems}</div>
     </div>
   );

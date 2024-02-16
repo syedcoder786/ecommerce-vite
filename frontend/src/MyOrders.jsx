@@ -166,6 +166,13 @@ const MyOrders = () => {
     <div className="min-h-screen md:w-3/4 mx-auto">
       <h1 className="text-3xl font-semibold my-2">My Orders</h1>
       <Accordion collapseAll className="">
+        {isLoading ? (
+          <div>
+            <h2 className="text-xl">Loading...</h2>
+          </div>
+        ) : (
+          ""
+        )}
         {orderDisplay}
         {/* <Accordion.Panel>
           <Accordion.Title>

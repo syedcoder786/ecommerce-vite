@@ -3,7 +3,7 @@ import productService from "./productService";
 // import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
-  products: [],
+  products: null,
   product: null,
   isError: false,
   isSuccess: false,
@@ -32,7 +32,7 @@ const initialState = {
 };
 
 // Create new product
-export const createProduct= createAsyncThunk(
+export const createProduct = createAsyncThunk(
   "product/add",
   async (productData, thunkAPI) => {
     try {
@@ -53,42 +53,50 @@ export const createProduct= createAsyncThunk(
   }
 );
 
+// fetch products
+export const fetchProducts = createAsyncThunk(
+  "product/fetch",
+  async (_, thunkAPI) => {
+    try {
+      // const token = thunkAPI.getState().auth.user.token;
+      // const page = thunkAPI.getState().product.page;
+      // const limit = thunkAPI.getState().product.limit;
+      return await productService.fetchProducts();
+    } catch (error) {
+      let message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 // fetch products
-export const fetchProducts = createAsyncThunk("product/fetch", async (_, thunkAPI) => {
-  try {
-    // const token = thunkAPI.getState().auth.user.token;
-    // const page = thunkAPI.getState().product.page;
-    // const limit = thunkAPI.getState().product.limit;
-    return await productService.fetchProducts();
-  } catch (error) {
-    let message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const fetchOneProduct = createAsyncThunk(
+  "productOne/fetch",
+  async (dataId, thunkAPI) => {
+    try {
+      // const token = thunkAPI.getState().auth.user.token;
+      // const page = thunkAPI.getState().product.page;
+      // const limit = thunkAPI.getState().product.limit;
+      return await productService.fetchOneProduct(dataId);
+    } catch (error) {
+      let message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
-
-// fetch products
-export const fetchOneProduct = createAsyncThunk("productOne/fetch", async (dataId, thunkAPI) => {
-  try {
-    // const token = thunkAPI.getState().auth.user.token;
-    // const page = thunkAPI.getState().product.page;
-    // const limit = thunkAPI.getState().product.limit;
-    return await productService.fetchOneProduct(dataId);
-  } catch (error) {
-    let message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
-  }
-});
-
+);
 
 // Comment product
-export const commentProduct= createAsyncThunk(
+export const commentProduct = createAsyncThunk(
   "product/comment",
   async (commentData, thunkAPI) => {
     try {
@@ -121,22 +129,26 @@ export const productSlice = createSlice({
       state.message = "";
 
       //product/add
-      state.isAddProductError = false,
-      state.isAddProductSuccess = false,
-      state.isAddProductLoading = false,
-      state.isAddProductMessage = ""
+      (state.isAddProductError = false),
+        (state.isAddProductSuccess = false),
+        (state.isAddProductLoading = false),
+        (state.isAddProductMessage = "");
 
       //product/fetch
-      state.isFetchProductError = false,
-      state.isFetchProductSuccess = false,
-      state.isFetchProductLoading = false,
-      state.isFetchProductMessage = ""
+      (state.isFetchProductError = false),
+        (state.isFetchProductSuccess = false),
+        (state.isFetchProductLoading = false),
+        (state.isFetchProductMessage = "");
 
       //productOne/fetch
-      state.isFetchOneProductError = false,
-      state.isFetchOneProductSuccess = false,
-      state.isFetchOneProductLoading = false,
-      state.isFetchOneProductMessage = ""
+      (state.isFetchOneProductError = false),
+        (state.isFetchOneProductSuccess = false),
+        (state.isFetchOneProductLoading = false),
+        (state.isFetchOneProductMessage = "");
+    },
+
+    clearProduct: (state) => {
+      state.product = null;
     },
   },
   // for backend request
@@ -161,8 +173,8 @@ export const productSlice = createSlice({
       .addCase(commentProduct.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        let tempProducts = state.products
-        tempProducts[action.payload.index] = action.payload.data
+        let tempProducts = state.products;
+        tempProducts[action.payload.index] = action.payload.data;
         // state.posts = [action.payload, ...state.posts];
       })
       .addCase(commentProduct.rejected, (state, action) => {
@@ -176,7 +188,7 @@ export const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.isFetchProductLoading = false;
         state.isFetchProductSuccess = true;
-        state.products = action.payload
+        state.products = action.payload;
         // state.products = [...state.products, ...action.payload];
         // state.page = state.page + 1;
       })
@@ -192,7 +204,7 @@ export const productSlice = createSlice({
       .addCase(fetchOneProduct.fulfilled, (state, action) => {
         state.isFetchOneProductLoading = false;
         state.isFetchOneProductSuccess = true;
-        state.product = action.payload
+        state.product = action.payload;
         // state.products = [...state.products, ...action.payload];
         // state.page = state.page + 1;
       })
@@ -200,9 +212,9 @@ export const productSlice = createSlice({
         state.isFetchOneProductLoading = false;
         state.isFetchOneProductError = true;
         state.isFetchOneProductMessage = action.payload;
-      })
+      });
   },
 });
 
-export const { reset } = productSlice.actions;
+export const { reset, clearProduct } = productSlice.actions;
 export default productSlice.reducer;

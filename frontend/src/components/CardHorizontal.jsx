@@ -221,7 +221,7 @@ const CardHorizontal = ({
             className="m-2 bg-green-500 hover:bg-green-600 text-white p-3"
             onClick={() => {
               addProductToCart();
-              navigate("/cart");
+              if (user) navigate("/cart");
             }}
           >
             BUY NOW

@@ -1,6 +1,7 @@
 import axios from "axios";
+import { proxy } from "../../config/default";
 
-const API_URL = "http://localhost:5000/api/order/";
+const API_URL = `${proxy}/api/order/`;
 
 // // Create Order
 // const createOrder = async (orderData, token) => {
@@ -19,7 +20,6 @@ const API_URL = "http://localhost:5000/api/order/";
 //   return response.data;
 // };
 
-
 // successOrder
 const successOrder = async (orderData, token) => {
   const config = {
@@ -28,29 +28,31 @@ const successOrder = async (orderData, token) => {
     },
   };
 
-  console.log("success order")
+  console.log("success order");
   // console.log(orderData)
 
-  const response = await axios.post(API_URL+"successOrder", orderData, config)
+  const response = await axios.post(
+    API_URL + "successOrder",
+    orderData,
+    config
+  );
   console.log(response.data);
 
   return response.data;
 };
 
-
 // fetchOrder
 const fetchOrders = async (token) => {
-  console.log("fetch order")
+  console.log("fetch order");
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  
   // console.log(orderData)
 
-  const response = await axios.post(API_URL+"fetchOrders", {} ,config)
+  const response = await axios.post(API_URL + "fetchOrders", {}, config);
   console.log(response.data);
 
   return response.data;
@@ -68,7 +70,7 @@ const fetchOrders = async (token) => {
 
 const orderService = {
   fetchOrders,
-  successOrder
+  successOrder,
 };
 
 export default orderService;

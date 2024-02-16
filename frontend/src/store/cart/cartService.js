@@ -1,6 +1,7 @@
 import axios from "axios";
+import { proxy } from "../../config/default";
 
-const API_URL = "http://localhost:5000/api/cart/";
+const API_URL = `${proxy}/api/cart/`;
 
 // Add To Cart
 const addToCart = async (cartData, token) => {
@@ -10,13 +11,12 @@ const addToCart = async (cartData, token) => {
     },
   };
 
-  const response = await axios.post(API_URL+"addToCart", cartData, config);
-  localStorage.setItem("cart", JSON.stringify(response.data))
+  const response = await axios.post(API_URL + "addToCart", cartData, config);
+  localStorage.setItem("cart", JSON.stringify(response.data));
   console.log(response.data);
 
   return response.data;
 };
-
 
 // Delete From Cart
 const deleteFromCart = async (cartData, token) => {
@@ -29,8 +29,12 @@ const deleteFromCart = async (cartData, token) => {
   // console.log("working")
   // console.log(cartData)
 
-  const response = await axios.post(API_URL+"deleteFromCart", cartData, config);
-  localStorage.setItem("cart", JSON.stringify(response.data))
+  const response = await axios.post(
+    API_URL + "deleteFromCart",
+    cartData,
+    config
+  );
+  localStorage.setItem("cart", JSON.stringify(response.data));
   console.log(response.data);
 
   return response.data;

@@ -1,6 +1,7 @@
 import axios from "axios";
+import { proxy } from "../../config/default";
 
-const API_URL = "http://localhost:5000/api/product/";
+const API_URL = `${proxy}/api/product/`;
 
 // Add To Product
 const addProduct = async (productData, token) => {
@@ -19,8 +20,7 @@ const addProduct = async (productData, token) => {
 
 // Fetch Products
 const fetchProducts = async () => {
-
-  const response = await axios.post(API_URL+"/fetchProducts");
+  const response = await axios.post(API_URL + "/fetchProducts");
 
   // console.log(response.data);
 
@@ -29,15 +29,12 @@ const fetchProducts = async () => {
 
 // Fetch Products
 const fetchOneProduct = async (dataId) => {
-
-
-  const response = await axios.post(API_URL+"/fetchOneProduct", dataId);
+  const response = await axios.post(API_URL + "/fetchOneProduct", dataId);
 
   console.log(response.data);
 
   return response.data;
 };
-
 
 // Add Comment to Product
 const productComment = async (commentData, token) => {
@@ -47,16 +44,18 @@ const productComment = async (commentData, token) => {
     },
   };
 
-  console.log(commentData)
+  console.log(commentData);
 
-  const response = await axios.post(API_URL+"addComment", commentData, config);
+  const response = await axios.post(
+    API_URL + "addComment",
+    commentData,
+    config
+  );
 
   console.log(response.data);
 
   return response.data;
 };
-
-
 
 const productService = {
   addProduct,

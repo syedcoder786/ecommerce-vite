@@ -2,7 +2,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CardHorizontal from "./components/CardHorizontal";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchOneProduct, reset } from "./store/product/productSlice";
+import {
+  clearProduct,
+  fetchOneProduct,
+  reset,
+} from "./store/product/productSlice";
+import { Spinner } from "flowbite-react";
 
 const Product = () => {
   let { productId } = useParams();
@@ -21,6 +26,10 @@ const Product = () => {
     console.log(productId);
     window.scrollTo(0, 0);
     dispatch(fetchOneProduct({ productId }));
+
+    return () => {
+      dispatch(clearProduct());
+    };
   }, []);
 
   useEffect(() => {
@@ -91,7 +100,13 @@ const Product = () => {
           </div>
         </div>
       ) : (
-        <div className="text-center text-2xl">Loading...</div>
+        <div className="text-center text-2xl">
+          <Spinner
+            aria-label="Spinner button example"
+            size="xl"
+            className="m-2"
+          />
+        </div>
       )}
     </div>
   );
