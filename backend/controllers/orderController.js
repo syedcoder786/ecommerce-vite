@@ -100,7 +100,10 @@ const successOrder = asyncHandler(async (req, res) => {
 const fetchOrders = asyncHandler(async (req, res) => {
 
     try {
-        const orders = await Order.find({ user: req.user.id }).populate("orderItems")
+        const orders = 
+        await Order.find({ user: req.user.id })
+        .populate("orderItems")
+        .sort("-createdAt")
 
         // console.log(orders)
 

@@ -12,6 +12,7 @@ import {
 } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
 import { addAddress, reset } from "../store/auth/authSlice";
+import { Link } from "react-router-dom";
 
 const Address = () => {
   const { user } = useSelector((state) => state.auth);
@@ -20,7 +21,7 @@ const Address = () => {
   const dispatch = useDispatch();
 
   const {
-    products,
+    // user,
     isAddAddressLoading: isLoading,
     isAddAddressError: isError,
     isAddAddressSuccess: isSuccess,
@@ -39,7 +40,7 @@ const Address = () => {
     }
 
     dispatch(reset());
-  }, [products, isError, isSuccess, message, dispatch]);
+  }, [isError, isSuccess, message, dispatch]);
 
   const [addressData, setAddressData] = useState({
     name: "",
@@ -138,15 +139,23 @@ const Address = () => {
     <div>
       <h1 className="text-2xl">Address</h1>
       {user?.hasOwnProperty("address") ? (
-        <p className="text-md mb-1">
-          <p>{user.address.name}</p>
-          <p>{user.address.mobile}</p>
-          <p>{user.address.pincode}</p>
-          <p>{user.address.area}</p>
-          <p>
-            {user.address.city}, {user.address.state}
+        <div>
+          <p className="text-md mb-1">
+            <p>{user.address.name}</p>
+            <p>{user.address.mobile}</p>
+            <p>{user.address.pincode}</p>
+            <p>{user.address.area}</p>
+            <p>
+              {user.address.city}, {user.address.state}
+            </p>
           </p>
-        </p>
+
+          <Link to="/editprofile">
+            <button className="my-2 p-2 bg-blue-800 hover:bg-blue-900 text-white">
+              Change Address
+            </button>
+          </Link>
+        </div>
       ) : (
         <div>
           {/* <button className="bg-slate-600 hover:bg-slate-700 p-2 my-2 text-white">

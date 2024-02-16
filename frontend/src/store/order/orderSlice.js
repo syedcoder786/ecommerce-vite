@@ -13,11 +13,11 @@ const initialState = {
   // limit: 10,
   // page:0,
 
-//   //order/create
-//   isCreateOrderError: false,
-//   isCreateOrderSuccess: false,
-//   isCreateOrderLoading: false,
-//   isCreateOrderMessage: "",
+  //   //order/create
+  //   isCreateOrderError: false,
+  //   isCreateOrderSuccess: false,
+  //   isCreateOrderLoading: false,
+  //   isCreateOrderMessage: "",
 
   //order/success
   isSuccessOrderError: false,
@@ -31,11 +31,11 @@ const initialState = {
   isFetchOrderLoading: false,
   isFetchOrderMessage: "",
 
-//   //product/fetch
-//   isFetchProductError: false,
-//   isFetchProductSuccess: false,
-//   isFetchProductLoading: false,
-//   isFetchProductMessage: "",
+  //   //product/fetch
+  //   isFetchProductError: false,
+  //   isFetchProductSuccess: false,
+  //   isFetchProductLoading: false,
+  //   isFetchProductMessage: "",
 };
 
 // // Create order
@@ -60,16 +60,15 @@ const initialState = {
 //   }
 // );
 
-
 // success order
 export const successOrder = createAsyncThunk(
   "order/success",
   async (orderData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      const res =  await orderService.successOrder(orderData, token);
-      thunkAPI.dispatch(clearCart())
-      return res;
+      return await orderService.successOrder(orderData, token);
+      // thunkAPI.dispatch(clearCart())
+      // return res;
     } catch (error) {
       let message =
         (error.response &&
@@ -90,9 +89,9 @@ export const fetchOrders = createAsyncThunk(
   "order/fetch",
   async (_, thunkAPI) => {
     try {
-      console.log("test")
+      console.log("test");
       const token = thunkAPI.getState().auth.user.token;
-      return  await orderService.fetchOrders(token);
+      return await orderService.fetchOrders(token);
     } catch (error) {
       let message =
         (error.response &&
@@ -107,7 +106,6 @@ export const fetchOrders = createAsyncThunk(
     }
   }
 );
-
 
 // // fetch products
 // export const fetchProducts = createAsyncThunk("product/fetch", async (_, thunkAPI) => {
@@ -125,7 +123,6 @@ export const fetchOrders = createAsyncThunk(
 //   }
 // });
 
-
 export const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -136,43 +133,42 @@ export const orderSlice = createSlice({
       state.isError = false;
       state.message = "";
 
-    //   //order/createOrder
-    //   state.isCreateOrderError = false,
-    //   state.isCreateOrderSuccess = false,
-    //   state.isCreateOrderLoading = false,
-    //   state.isCreateOrderMessage = ""
+      //   //order/createOrder
+      //   state.isCreateOrderError = false,
+      //   state.isCreateOrderSuccess = false,
+      //   state.isCreateOrderLoading = false,
+      //   state.isCreateOrderMessage = ""
 
       //order/success
-      state.isSuccessError = false
-      state.isSuccessSuccess = false
-      state.isSuccessLoading = false
-      state.isSuccessMessage = ""
+      state.isSuccessOrderError = false;
+      state.isSuccessOrderSuccess = false;
+      state.isSuccessOrderLoading = false;
+      state.isSuccessOrderMessage = "";
 
       //order/fetch
-      state.isFetchOrderError = false
-      state.isFetchOrderSuccess = false
-      state.isFetchOrderLoading = false
-      state.isFetchOrderMessage = ""
-    }
+      state.isFetchOrderError = false;
+      state.isFetchOrderSuccess = false;
+      state.isFetchOrderLoading = false;
+      state.isFetchOrderMessage = "";
+    },
   },
   // for backend request
   extraReducers: (builder) => {
     builder
 
-    //   .addCase(createOrder.pending, (state) => {
-    //     state.isCreateOrderLoading = true;
-    //   })
-    //   .addCase(createOrder.fulfilled, (state, action) => {
-    //     state.isCreateOrderLoading = false;
-    //     state.isCreateOrderSuccess = true;
-    //     state.order = action.payload;
-    //   })
-    //   .addCase(createOrder.rejected, (state, action) => {
-    //     state.isCreateOrderLoading = false;
-    //     state.isCreateOrderError = true;
-    //     state.isCreateOrderMessage = action.payload;
-    //   })
-
+      //   .addCase(createOrder.pending, (state) => {
+      //     state.isCreateOrderLoading = true;
+      //   })
+      //   .addCase(createOrder.fulfilled, (state, action) => {
+      //     state.isCreateOrderLoading = false;
+      //     state.isCreateOrderSuccess = true;
+      //     state.order = action.payload;
+      //   })
+      //   .addCase(createOrder.rejected, (state, action) => {
+      //     state.isCreateOrderLoading = false;
+      //     state.isCreateOrderError = true;
+      //     state.isCreateOrderMessage = action.payload;
+      //   })
 
       .addCase(successOrder.pending, (state) => {
         state.isSuccessOrderLoading = true;
@@ -200,7 +196,7 @@ export const orderSlice = createSlice({
         state.isFetchOrderLoading = false;
         state.isFetchOrderError = true;
         state.isFetchOrderMessage = action.payload;
-      })
+      });
     //   .addCase(fetchProducts.pending, (state) => {
     //     state.isFetchProductLoading = true;
     //   })

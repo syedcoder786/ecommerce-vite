@@ -45,7 +45,7 @@ export const addToCart= createAsyncThunk(
         error.message ||
         error.toString();
       if (!thunkAPI.getState().auth.user) {
-        message = "Please LogIn to add cart";
+        message = "Please Log In to add to cart";
       }
       return thunkAPI.rejectWithValue(message);
     }
@@ -68,7 +68,7 @@ export const deleteFromCart = createAsyncThunk(
         error.message ||
         error.toString();
       if (!thunkAPI.getState().auth.user) {
-        message = "Please LogIn to delete cart";
+        message = "Please Log In to delete cart";
       }
       return thunkAPI.rejectWithValue(message);
     }

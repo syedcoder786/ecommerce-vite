@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, reset } from "../store/cart/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CardHorizontal = ({
   id,
@@ -65,6 +66,7 @@ const CardHorizontal = ({
   useEffect(() => {
     if (isError) {
       console.log(message);
+      toast.error(message);
     }
 
     if (isSuccess) {
@@ -163,7 +165,7 @@ const CardHorizontal = ({
             <div>
               {description.substring(0, 250)}{" "}
               <button
-                className="underline font-semibold"
+                className="text-gray-700 font-semibold"
                 onClick={() => {
                   setOpenModal(true);
                 }}
@@ -215,7 +217,13 @@ const CardHorizontal = ({
               ADD TO CART
             </button>
           )}
-          <button className="m-2 bg-green-500 hover:bg-green-600 text-white p-3">
+          <button
+            className="m-2 bg-green-500 hover:bg-green-600 text-white p-3"
+            onClick={() => {
+              addProductToCart();
+              navigate("/cart");
+            }}
+          >
             BUY NOW
           </button>
         </div>

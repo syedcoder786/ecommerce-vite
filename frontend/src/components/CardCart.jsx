@@ -61,7 +61,7 @@ const CardCart = ({ _id, imageUrl, title, price, inStock }) => {
                   {title.substring(0, 50)}{" "}
                 </span>
                 <button
-                  className="underline font-semibold"
+                  className="text-gray-700 font-semibold"
                   onClick={() => {
                     setOpenModal(true);
                   }}

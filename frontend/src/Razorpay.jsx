@@ -3,9 +3,13 @@ import axios from "axios";
 import logo from "./assets/react.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { reset, successOrder } from "./store/order/orderSlice";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "./store/cart/cartSlice";
 
 const Razorpay = ({ totalAmount }) => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   function loadScript(src) {
     return new Promise((resolve) => {
@@ -69,6 +73,9 @@ const Razorpay = ({ totalAmount }) => {
 
     if (isSuccessOrderSuccess) {
       console.log("success order/success");
+      // dispatch(reset());
+      dispatch(clearCart());
+      navigate("/myorders");
     }
 
     dispatch(reset());

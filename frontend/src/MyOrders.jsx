@@ -4,10 +4,11 @@ import { HiCheck, HiClock } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrders, reset } from "./store/order/orderSlice";
 import moment from "moment";
+import { Link, useNavigate } from "react-router-dom";
 
 const MyOrders = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const {
     orderItems,
     isFetchOrderError: isError,
@@ -15,6 +16,14 @@ const MyOrders = () => {
     isFetchOrderLoading: isLoading,
     isFetchOrderMessage: message,
   } = useSelector((state) => state.order);
+
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (isError) {
@@ -35,19 +44,23 @@ const MyOrders = () => {
   const orderDisplay = orderItems?.map((oneOrder, index) => (
     <Accordion.Panel>
       <Accordion.Title>
-        <div className="flex items-center md:gap-3">
+        <div className="flex items-center gap-3">
           <Badge color="yellow" icon={HiCheck} />
           <span className="font-bold text-lg">
             ₹{oneOrder.orderItems.reduce((acc, obj) => acc + obj.price, 0)}
           </span>{" "}
-          (4 Items)
+          ({oneOrder.orderItems.length} Items)
           <Badge color="warning">Pending</Badge>
-          <Badge color="purple" icon={HiClock}>
-            Ordered on {moment(oneOrder.createdAt).format("DD-MM-YYYY")}
-          </Badge>
-          <Badge color="gray" icon={HiClock}>
-            Delivering in 2 days
-          </Badge>
+          <div className="md:block hidden">
+            <Badge color="purple" icon={HiClock}>
+              Ordered on {moment(oneOrder.createdAt).format("DD-MM-YYYY")}
+            </Badge>
+          </div>
+          <div className="md:block hidden">
+            <Badge color="gray" icon={HiClock}>
+              Delivering Soon
+            </Badge>
+          </div>
         </div>
       </Accordion.Title>
       <Accordion.Content>
@@ -77,7 +90,7 @@ const MyOrders = () => {
                   Delivered
                 </Badge>
                 <Badge color="purple" icon={HiClock} className="my-2">
-                  Ordered on 11/8/2024
+                  Ordered on {moment(oneOrder.createdAt).format("DD-MM-YYYY")}
                 </Badge>
                 <Badge icon={HiClock} className="my-2">
                   Delivered on 14/6/2024
@@ -89,10 +102,10 @@ const MyOrders = () => {
                   Pending
                 </Badge>
                 <Badge color="purple" icon={HiClock} className="my-2">
-                  Ordered on 15/5/2024
+                  Ordered on {moment(oneOrder.createdAt).format("DD-MM-YYYY")}
                 </Badge>
                 <Badge color="gray" icon={HiClock} className="my-2">
-                  Delivering in 2 days
+                  Delivering Soon
                 </Badge>
               </div>
             )}
@@ -115,16 +128,6 @@ const MyOrders = () => {
                     {item.title}
                   </li>
                 ))}
-
-                {/* <li>
-                  <span className="font-semibold">₹4999</span> X Item2
-                </li>
-                <li>
-                  <span className="font-semibold">₹7999</span> X Item3
-                </li>
-                <li>
-                  <span className="font-semibold">₹6999</span> X Item4
-                </li> */}
               </ol>
               <h2 className="text-xl font-semibold m-3">
                 Total - ₹
@@ -146,9 +149,23 @@ const MyOrders = () => {
     </Accordion.Panel>
   ));
 
+  if (orderItems?.length == 0) {
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
+        <h1 className="text-4xl font-bold mb-4">No Orders till now</h1>
+        <Link to="/">
+          <p className="text-xl underline text-yellow-400 font-semibold">
+            Shop Now
+          </p>
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen">
-      <Accordion collapseAll className="md:w-3/4 mx-auto">
+    <div className="min-h-screen md:w-3/4 mx-auto">
+      <h1 className="text-3xl font-semibold my-2">My Orders</h1>
+      <Accordion collapseAll className="">
         {orderDisplay}
         {/* <Accordion.Panel>
           <Accordion.Title>

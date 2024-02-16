@@ -5,10 +5,10 @@ const API_URL = "http://localhost:5000/api/users/";
 // Register user
 const register = async (userData) => {
   const response = await axios.post(API_URL, userData);
-  
+
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
-    localStorage.setItem("cart", JSON.stringify(response.data.cart))
+    localStorage.setItem("cart", JSON.stringify(response.data.cart));
   }
 
   console.log(response.data);
@@ -17,7 +17,7 @@ const register = async (userData) => {
 
 // Add Address
 const addAddress = async (addressData, token) => {
-  console.log(addressData)
+  console.log(addressData);
 
   const config = {
     headers: {
@@ -25,9 +25,37 @@ const addAddress = async (addressData, token) => {
     },
   };
 
+  const response = await axios.post(
+    API_URL + "addAddress",
+    { address: addressData },
+    config
+  );
 
-  const response = await axios.post(API_URL+"addAddress", {address: addressData}, config);
-  
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+    // localStorage.setItem("cart", JSON.stringify(response.data.cart))
+  }
+
+  console.log(response.data);
+  return response.data;
+};
+
+// Edit Address
+const editAddress = async (addressData, token) => {
+  console.log(addressData);
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.post(
+    API_URL + "editAddress",
+    { address: addressData },
+    config
+  );
+
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
     // localStorage.setItem("cart", JSON.stringify(response.data.cart))
@@ -43,7 +71,7 @@ const login = async (userData) => {
 
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
-    localStorage.setItem("cart", JSON.stringify(response.data.cart))
+    localStorage.setItem("cart", JSON.stringify(response.data.cart));
   }
 
   return response.data;
@@ -60,6 +88,7 @@ const authService = {
   logout,
   login,
   addAddress,
+  editAddress,
 };
 
 export default authService;

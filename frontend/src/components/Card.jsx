@@ -39,7 +39,7 @@ const Card = ({ _id, imageUrl, title, price, inStock }) => {
                   {title.substring(0, 40)}{" "}
                 </span>
                 <button
-                  className="underline font-semibold"
+                  className="text-gray-700 font-semibold"
                   onClick={() => {
                     setOpenModal(true);
                   }}
