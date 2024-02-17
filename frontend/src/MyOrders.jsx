@@ -1,4 +1,4 @@
-import { Accordion, Badge } from "flowbite-react";
+import { Accordion, Badge, Spinner } from "flowbite-react";
 import { useEffect } from "react";
 import { HiCheck, HiClock } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
@@ -165,14 +165,14 @@ const MyOrders = () => {
   return (
     <div className="min-h-screen md:w-3/4 mx-auto">
       <h1 className="text-3xl font-semibold my-2">My Orders</h1>
+      {isLoading && (
+        <Spinner
+          aria-label="Spinner button example"
+          size="md"
+          className="mr-2"
+        />
+      )}
       <Accordion collapseAll className="">
-        {isLoading ? (
-          <div>
-            <h2 className="text-xl">Loading...</h2>
-          </div>
-        ) : (
-          ""
-        )}
         {orderDisplay}
         {/* <Accordion.Panel>
           <Accordion.Title>

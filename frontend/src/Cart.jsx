@@ -54,7 +54,7 @@ const Cart = () => {
       <h1 className="text-center text-3xl m-2">Cart</h1>
       <hr className="w-11/12 mx-auto" />
       <div className="md:flex gap-4 m-4 justify-center">
-        <div className="cards w-2/4">
+        <div className="cards md:w-2/4">
           {cartList}
           {/* <CardCart
             title={

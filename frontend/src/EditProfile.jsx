@@ -156,7 +156,7 @@ const EditProfile = () => {
 
   return (
     <div>
-      <div className="w-2/4 mx-auto">
+      <div className="md:w-2/4 md:mx-auto mx-4">
         <h2 className="text-3xl m-2">Personal Details</h2>
 
         <div className="mb-2 block">

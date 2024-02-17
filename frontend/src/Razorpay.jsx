@@ -1,15 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import logo from "./assets/react.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { reset, successOrder } from "./store/order/orderSlice";
 import { useNavigate } from "react-router-dom";
 import { clearCart } from "./store/cart/cartSlice";
+import { Spinner } from "flowbite-react";
+import { proxy } from "./config/default";
+import { toast } from "react-toastify";
 
 const Razorpay = ({ totalAmount }) => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
 
   function loadScript(src) {
     return new Promise((resolve) => {
@@ -87,27 +92,35 @@ const Razorpay = ({ totalAmount }) => {
   ]);
 
   async function displayRazorpay() {
-    const res = await loadScript(
-      "https://checkout.razorpay.com/v1/checkout.js"
-    );
+    setLoading(true);
+    let result;
+    try {
+      const res = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+      );
 
-    if (!res) {
-      alert("Razorpay SDK failed to load. Are you online?");
-      return;
-    }
+      // if (!res) {
+      //   alert("Razorpay SDK failed to load. Are you online?");
+      //   setLoading(false);
+      //   return;
+      // }
 
-    // dispatch(createOrder({ totalAmount }));
+      // dispatch(createOrder({ totalAmount }));
 
-    const result = await axios.post(
-      "http://localhost:5000/api/order/createOrder",
-      {
+      result = await axios.post(`${proxy}/api/order/createOrder`, {
         totalAmount,
-      }
-    );
+      });
 
-    if (!result) {
-      alert("Server error. Are you online?");
-      return;
+      setLoading(false);
+
+      // if (!result) {
+      //   alert("Server error. Are you online?");
+      //   return;
+      // }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      return toast.error(error.message);
     }
 
     const { amount, id: order_id, currency } = result.data;
@@ -165,6 +178,13 @@ const Razorpay = ({ totalAmount }) => {
         className="my-2 px-4 bg-green-500 hover:bg-green-600 text-white p-2 rounded-md"
         onClick={displayRazorpay}
       >
+        {loading && (
+          <Spinner
+            aria-label="Spinner button example"
+            size="md"
+            className="mr-2"
+          />
+        )}
         Pay Now
       </button>
     </div>
