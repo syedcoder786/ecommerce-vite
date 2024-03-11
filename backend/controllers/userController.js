@@ -62,18 +62,16 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  // console.log(email)
-  // console.log(password)
+  // console.log(email);
+  // console.log(password);
 
   // Check for user email
   const user = await User.findOne({ email });
-  let cart = await Cart.findOne({ user: user._id }).populate("cartItems");
-
-  console.log(cart);
 
   if (user && (await bcrypt.compare(password, user.password))) {
+    let cart = await Cart.findOne({ user: user._id }).populate("cartItems");
     res.json({
-      _id: user.id,
+      _id: user._id,
       name: user.name,
       email: user.email,
       address: user.address,
