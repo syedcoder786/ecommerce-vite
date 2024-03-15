@@ -142,13 +142,11 @@ export const orderSlice = createSlice({
       //order/success
       state.isSuccessOrderError = false;
       state.isSuccessOrderSuccess = false;
-      state.isSuccessOrderLoading = false;
       state.isSuccessOrderMessage = "";
 
       //order/fetch
       state.isFetchOrderError = false;
       state.isFetchOrderSuccess = false;
-      state.isFetchOrderLoading = false;
       state.isFetchOrderMessage = "";
     },
   },

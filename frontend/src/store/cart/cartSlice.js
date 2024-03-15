@@ -23,15 +23,15 @@ const initialState = {
   isDeleteFromCartLoading: false,
   isDeleteFromCartMessage: "",
 
-//   //product/fetch
-//   isFetchProductError: false,
-//   isFetchProductSuccess: false,
-//   isFetchProductLoading: false,
-//   isFetchProductMessage: "",
+  //   //product/fetch
+  //   isFetchProductError: false,
+  //   isFetchProductSuccess: false,
+  //   isFetchProductLoading: false,
+  //   isFetchProductMessage: "",
 };
 
 // Create new cart
-export const addToCart= createAsyncThunk(
+export const addToCart = createAsyncThunk(
   "cart/add",
   async (cartData, thunkAPI) => {
     try {
@@ -51,7 +51,6 @@ export const addToCart= createAsyncThunk(
     }
   }
 );
-
 
 // Create new cart
 export const deleteFromCart = createAsyncThunk(
@@ -75,7 +74,6 @@ export const deleteFromCart = createAsyncThunk(
   }
 );
 
-
 // // fetch products
 // export const fetchProducts = createAsyncThunk("product/fetch", async (_, thunkAPI) => {
 //   try {
@@ -92,7 +90,6 @@ export const deleteFromCart = createAsyncThunk(
 //   }
 // });
 
-
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -104,32 +101,30 @@ export const cartSlice = createSlice({
       state.message = "";
 
       //cart/add
-      state.isAddToCartError = false,
-      state.isAddToCartSuccess = false,
-      state.isAddToCartLoading = false,
-      state.isAddToCartMessage = ""
+      (state.isAddToCartError = false),
+        (state.isAddToCartSuccess = false),
+        (state.isAddToCartMessage = "");
 
       //cart/delete
-      state.isDeleteFromCartError = false,
-      state.isDeleteFromCartSuccess = false,
-      state.isDeleteFromCartLoading = false,
-      state.isDeleteFromCartMessage = ""
+      (state.isDeleteFromCartError = false),
+        (state.isDeleteFromCartSuccess = false),
+        (state.isDeleteFromCartMessage = "");
 
-    //   //product/fetch
-    //   state.isFetchProductError = false,
-    //   state.isFetchProductSuccess = false,
-    //   state.isFetchProductLoading = false,
-    //   state.isFetchProductMessage = ""
+      //   //product/fetch
+      //   state.isFetchProductError = false,
+      //   state.isFetchProductSuccess = false,
+      //   state.isFetchProductLoading = false,
+      //   state.isFetchProductMessage = ""
     },
 
-    setCart : (state, action) => {
-        // console.log(action.payload)
-        state.cartItems = action.payload
+    setCart: (state, action) => {
+      // console.log(action.payload)
+      state.cartItems = action.payload;
     },
-    clearCart : (state, action) => {
-      localStorage.setItem("cart", JSON.stringify([]))
-      state.cartItems = []
-    }
+    clearCart: (state, action) => {
+      localStorage.setItem("cart", JSON.stringify([]));
+      state.cartItems = [];
+    },
   },
   // for backend request
   extraReducers: (builder) => {
@@ -143,11 +138,10 @@ export const cartSlice = createSlice({
         state.cartItems = action.payload;
       })
       .addCase(addToCart.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isAddToCartLoading = false;
         state.isAddToCartError = true;
         state.isAddToCartMessage = action.payload;
       })
-
 
       .addCase(deleteFromCart.pending, (state) => {
         state.isDeleteFromCartLoading = true;
@@ -161,7 +155,7 @@ export const cartSlice = createSlice({
         state.isLoading = false;
         state.isDeleteFromCartError = true;
         state.isDeleteFromCartMessage = action.payload;
-      })
+      });
     //   .addCase(fetchProducts.pending, (state) => {
     //     state.isFetchProductLoading = true;
     //   })

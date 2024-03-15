@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Address from "./components/Address";
 import Razorpay from "./Razorpay";
 import { Link } from "react-router-dom";
+import { Spinner } from "flowbite-react";
 
 const Cart = () => {
   const {
     cartItems,
-    // isAddToCartLoading: isLoading,
+    isAddToCartLoading: isLoading,
+    isDeleteFromCartLoading: isDLoading,
     // isAddToCartError: isError,
     // isAddToCartSuccess: isSuccess,
     // isAddToCartMessage: message,
@@ -55,6 +57,15 @@ const Cart = () => {
       <hr className="w-11/12 mx-auto" />
       <div className="md:flex gap-4 m-4 justify-center">
         <div className="cards md:w-2/4">
+          {(isLoading || isDLoading) && (
+            <div className="text-center text-2xl">
+              <Spinner
+                aria-label="Spinner button example"
+                size="xl"
+                className="m-2"
+              />
+            </div>
+          )}
           {cartList}
           {/* <CardCart
             title={

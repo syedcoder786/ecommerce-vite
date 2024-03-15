@@ -131,19 +131,16 @@ export const productSlice = createSlice({
       //product/add
       (state.isAddProductError = false),
         (state.isAddProductSuccess = false),
-        (state.isAddProductLoading = false),
         (state.isAddProductMessage = "");
 
       //product/fetch
       (state.isFetchProductError = false),
         (state.isFetchProductSuccess = false),
-        (state.isFetchProductLoading = false),
         (state.isFetchProductMessage = "");
 
       //productOne/fetch
       (state.isFetchOneProductError = false),
         (state.isFetchOneProductSuccess = false),
-        (state.isFetchOneProductLoading = false),
         (state.isFetchOneProductMessage = "");
     },
 

@@ -31,7 +31,7 @@ const ShowProducts = () => {
     }
 
     dispatch(reset());
-  }, [products, isError, isSuccess, message, dispatch]);
+  }, [isError, isSuccess, message, dispatch]);
 
   const productItems = products?.map((product, index) => (
     <Card {...product} key={index} />
@@ -45,7 +45,7 @@ const ShowProducts = () => {
           Category Select
         </button>
       </div>
-      {/* {isLoading && (
+      {isLoading ? (
         <div className="text-center text-2xl">
           <Spinner
             aria-label="Spinner button example"
@@ -53,8 +53,9 @@ const ShowProducts = () => {
             className="m-2"
           />
         </div>
-      )} */}
-      <div className="grid md:grid-cols-5 gap-2">{productItems}</div>
+      ) : (
+        <div className="grid md:grid-cols-5 gap-2">{productItems}</div>
+      )}
     </div>
   );
 };

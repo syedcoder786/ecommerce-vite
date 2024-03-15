@@ -135,19 +135,16 @@ export const authSlice = createSlice({
       // login
       state.isLoginError = false;
       state.isLoginSuccess = false;
-      state.isLoginLoading = false;
       state.isLoginMessage = "";
 
       // register
       state.isRegisterError = false;
       state.isRegisterSuccess = false;
-      state.isRegisterLoading = false;
       state.isRegisterMessage = "";
 
       // add address
       state.isAddAddressError = false;
       state.isAddAddressSuccess = false;
-      state.isAddAddressLoading = false;
       state.isAddAddressMessage = "";
 
       // // edit address
